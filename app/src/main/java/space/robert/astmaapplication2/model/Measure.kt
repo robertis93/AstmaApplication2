@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
 data class Measure(
     @PrimaryKey(autoGenerate = true)
     val id : Int,
-    val dayMeasure : String,
     val measureM : Int,
     val measureD : Int,
     val measureE : Int

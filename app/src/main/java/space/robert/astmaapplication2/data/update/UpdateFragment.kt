@@ -32,7 +32,6 @@ class UpdateFragment : Fragment() {
 
         mMeasureViewModel = ViewModelProvider(this).get(MeasureViewModel::class.java)
 
-        view.editTextDate.setText(args.currentUser.dayMeasure)
         view.update_measureMorning.setText(args.currentUser.measureM.toString())
         view.update_measureDay.setText(args.currentUser.measureD.toString())
         view.update_measureEvening.setText(args.currentUser.measureE.toString())
@@ -46,15 +45,13 @@ class UpdateFragment : Fragment() {
     }
 
     private fun updateItem() {
-
-        val measureDate = editTextDate.text.toString()
         val measureM = Integer.parseInt(update_measureMorning.text.toString())
         val measureD = Integer.parseInt(update_measureDay.text.toString())
         val measureE = Integer.parseInt(update_measureEvening.text.toString())
 
         if (inputCheck(update_measureMorning.text, update_measureDay.text, update_measureEvening.text)
         ) {
-            val updateMeasure = Measure(args.currentUser.id, measureDate, measureM, measureD, measureE)
+            val updateMeasure = Measure(args.currentUser.id, measureM, measureD, measureE)
 
             mMeasureViewModel.updateMeasure(updateMeasure)
             Toast.makeText(requireContext(), "Updated Sujccessfull", Toast.LENGTH_SHORT).show()

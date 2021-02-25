@@ -66,7 +66,6 @@ class AddFragment : Fragment() {
 
 
     private fun insertDataToDatabase() {
-        val dayMeasure = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
         val morningM = measureMorning.text
         val dayM = measureDay.text
         val eveningM = measureEvening.text
@@ -75,7 +74,6 @@ class AddFragment : Fragment() {
         if (inputCheck(morningM, dayM, eveningM)) {
             val measure = Measure(
                 0,
-                dayMeasure,
                 Integer.parseInt(morningM.toString()),
                 Integer.parseInt(dayM.toString()),
                 Integer.parseInt(eveningM.toString())
