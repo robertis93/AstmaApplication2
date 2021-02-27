@@ -134,7 +134,7 @@
         android:layout_marginTop="35dp"
         android:ems="7"
         android:hint="8:00"
-        android:inputType="time"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editTextTime9"
         app:layout_constraintEnd_toStartOf="@+id/measureMorning"
         app:layout_constraintHorizontal_bias="0.5"

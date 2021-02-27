@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_listFragment_to_graphFragment"
             app:destination="@id/graphFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_dozeFragment"
+            app:destination="@id/dozeFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -46,4 +49,9 @@
         android:name="space.robert.astmaapplication2.GraphFragment"
         android:label="fragment_graph"
         tools:layout="@layout/fragment_graph" />
+    <fragment
+        android:id="@+id/dozeFragment"
+        android:name="space.robert.astmaapplication2.data.DozeFragment"
+        android:label="fragment_doze"
+        tools:layout="@layout/fragment_doze" />
 </navigation>

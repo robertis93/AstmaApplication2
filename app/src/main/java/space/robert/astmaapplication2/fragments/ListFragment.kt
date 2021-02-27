@@ -44,6 +44,10 @@ class ListFragment : Fragment() {
             findNavController().navigate(R.id.action_listFragment_to_graphFragment)
         }
 
+        view.floatingActionButton2.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_dozeFragment)
+        }
+
         setHasOptionsMenu(true)
         return view
     }

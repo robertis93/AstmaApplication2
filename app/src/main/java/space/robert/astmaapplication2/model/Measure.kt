@@ -10,10 +10,13 @@ import kotlinx.android.parcel.Parcelize
 data class Measure(
     @PrimaryKey(autoGenerate = true)
     val id : Int,
-    val dayMeasure : String,
+    val dayOfMeasure : String,
     val measureM : Int,
     val measureD : Int,
-    val measureE : Int
+    val measureE : Int,
+    val firstTime : String,
+    val secondTime : String,
+    val thirdTime : String
 )  : Parcelable{
 
 }

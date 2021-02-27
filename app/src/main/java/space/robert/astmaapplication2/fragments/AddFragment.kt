@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.custom_row.*
 import kotlinx.android.synthetic.main.fragment_add.*
 import kotlinx.android.synthetic.main.fragment_add.view.*
 import space.robert.astmaapplication2.R
@@ -66,19 +67,25 @@ class AddFragment : Fragment() {
 
 
     private fun insertDataToDatabase() {
-        val dayMeasure = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
+        val dateOfMeasure  = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
         val morningM = measureMorning.text
         val dayM = measureDay.text
         val eveningM = measureEvening.text
+        val firstTime = editTextTime8.text
+        val secondTime = editTextTime9.text
+        val thirdTime = editTextTime10.text
 
 
         if (inputCheck(morningM, dayM, eveningM)) {
             val measure = Measure(
                 0,
-                dayMeasure,
+                dateOfMeasure.toString(),
                 Integer.parseInt(morningM.toString()),
                 Integer.parseInt(dayM.toString()),
-                Integer.parseInt(eveningM.toString())
+                Integer.parseInt(eveningM.toString()),
+                firstTime.toString(),
+                secondTime.toString(),
+                thirdTime.toString()
             )
             mMeasureViewModel.addMeasure(measure)
             Toast.makeText(requireContext(), "Successfully added", Toast.LENGTH_SHORT).show()
