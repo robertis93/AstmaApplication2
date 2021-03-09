@@ -32,53 +32,73 @@ import java.util.*
 
 class AddFragment : Fragment() {
     val dateTime = LocalDateTime.now()
-    //val dateTime = LocalDateTime.now()
 
+    //val dateTime = LocalDateTime.now()
+    private var alarmMgr: AlarmManager? = null
+    private lateinit var alarmIntent: PendingIntent
     var dayWeek = Calendar.getInstance()
     private lateinit var mMeasureViewModel: MeasureViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_add, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_add, container, false)
 
-
-        mMeasureViewModel = ViewModelProvider(this).get(MeasureViewModel::class.java)
-        view.add_button.setOnClickListener {
-            insertDataToDatabase()
-            
-            var sec = editTextTime8.text.toString().toInt()
-            var i = Intent(context?.applicationContext, MyBroadcastReceiver::class.java)
-            var pi = PendingIntent.getBroadcast(context?.applicationContext, 111, i, 0)
-            var am : AlarmManager? = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            if (am != null) {
-                am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (sec*1000), pi)
-            }
-            Toast.makeText(requireContext().applicationContext, "Alarm set for $sec Seconds", Toast.LENGTH_SHORT).show()
-        }
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mMeasureViewModel = ViewModelProvider(this).get(MeasureViewModel::class.java)
+        view.add_button.setOnClickListener {
+            insertDataToDatabase()
+
+
+            alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
+                PendingIntent.getBroadcast(context, 0, intent, 0)
+            }
+
+// Set the alarm to start at 8:30 a.m.
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, 7)
+                set(Calendar.MINUTE,19 )
+            }
+
+            alarmMgr?.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                1000 * 60 * 20,
+                alarmIntent
+            )
+
+//            var sec = editTextTime8.text.toString().toInt()
+//            var i = Intent(context?.applicationContext, MyBroadcastReceiver::class.java)
+//            var pi = PendingIntent.getBroadcast(context?.applicationContext, 111, i, 0)
+//            var am : AlarmManager? = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//
+//            if (am != null) {
+//                am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (sec*1000), pi)
+//            }
+//            Toast.makeText(requireContext().applicationContext, "Alarm set for $sec Seconds", Toast.LENGTH_SHORT).show()
+        }
+
 
         val textViewDate = getView()?.findViewById<TextView>(R.id.text_date)
         if (textViewDate != null) {
-            textViewDate.setText(dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))).toString()
+            textViewDate.setText(dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)))
+                .toString()
         }
         val textViewTime = getView()?.findViewById<TextView>(R.id.text_time)
         if (textViewTime != null) {
-            textViewTime.setText(dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))).toString()
+            textViewTime.setText(dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+                .toString()
         }
 
-        val weekOfDay =  getView()?.findViewById<TextView>(R.id.text_day_week)
+        val weekOfDay = getView()?.findViewById<TextView>(R.id.text_day_week)
         if (weekOfDay != null) {
 
             weekOfDay.setText((convertDayOfMounth(dayWeek.get(Calendar.DAY_OF_WEEK)).toString()))
-
 
 
         }
@@ -86,7 +106,8 @@ class AddFragment : Fragment() {
 
 
     private fun insertDataToDatabase() {
-        val dateOfMeasure  = dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
+        val dateOfMeasure =
+            dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
         val morningM = measureMorning.text
         val dayM = measureDay.text
         val eveningM = measureEvening.text

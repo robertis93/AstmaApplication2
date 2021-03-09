@@ -36,15 +36,15 @@ class ListFragment : Fragment() {
             adapter.setData(measure)
         })
 
-        view.floatingActionButton.setOnClickListener {
+        view.actionButtonToAddFragment.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
 
-        view.floatingActionCharButton.setOnClickListener {
+        view.actionButtonToGraphFragment.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_graphFragment)
         }
 
-        view.floatingActionButton2.setOnClickListener {
+        view.actionButtonToDozeFragment.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_dozeFragment)
         }
 

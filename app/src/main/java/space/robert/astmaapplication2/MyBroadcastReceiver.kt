@@ -9,7 +9,10 @@ import space.robert.astmaapplication2.fragments.AddFragment
 
 class MyBroadcastReceiver :BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        var mp = MediaPlayer.create(context, R.raw.alarm_voice)
-        mp.start()
+       var i = Intent(context, NotificationFirstTimeActivity::class.java)
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (context != null) {
+            context.startActivity(i)
+        }
         }
     }
