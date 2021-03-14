@@ -104,11 +104,30 @@ class AlarmFragment : Fragment()
                 TimePickerDialog.OnTimeSetListener { timePicker: TimePicker, hour, minute ->
                     calendarSecond.set(Calendar.HOUR_OF_DAY, hour)
                     calendarSecond.set(Calendar.MINUTE, minute)
-                    textview_second_time.text =
-                        SimpleDateFormat("HH:mm").format(calendarSecond.time)
-                    val dateTimeS = textview_second_time.text
+                    var sdfS =  SimpleDateFormat("HH:mm").format(calendarSecond.time)
+                    textview_second_time.text =sdfS
 
+                    alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
+                        PendingIntent.getBroadcast(context, 22, intent, 0)
+                    }
 
+                    var  timeHourSecond = sdfS.substringBefore(':')
+                    var timeMinutSecond = sdfS.substringAfter(':')
+                    val calendar: Calendar = Calendar.getInstance().apply {
+                        timeInMillis = System.currentTimeMillis()
+                        set(Calendar.HOUR_OF_DAY, timeHourSecond.toInt())
+                        set(Calendar.MINUTE, timeMinutSecond.toInt())
+
+//            set(Calendar.HOUR_OF_DAY, timeHourSecond.toInt())
+//            set(Calendar.MINUTE, timeMinutSecond.toInt() )
+                    }
+
+                    alarmMgr?.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        alarmIntent
+                    )
                 }
 
             val timePickerDialog = TimePickerDialog(
@@ -124,31 +143,6 @@ class AlarmFragment : Fragment()
         }
 
 
-        // Set the alarm to start at 8:30 a.m.
-        //        var sec = editTextAlarmTimeFirst.text.toString().toInt()
-        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, 22, intent, 0)
-        }
-        // var timeHourSecond = (dateTimeS.toString().substringBefore(':'))
-        // var timeMinutSecond = (dateTimeS.toString().substringAfter(':'))
-        val calendar: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 14)
-            set(Calendar.MINUTE, 8)
-
-//            set(Calendar.HOUR_OF_DAY, timeHourSecond.toInt())
-//            set(Calendar.MINUTE, timeMinutSecond.toInt() )
-        }
-
-        alarmMgr?.set(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            alarmIntent
-        )
-
-
-
         view.btn_third_time.setOnClickListener {
 
             val calendarThird = Calendar.getInstance()
@@ -156,7 +150,29 @@ class AlarmFragment : Fragment()
                 TimePickerDialog.OnTimeSetListener { timePicker: TimePicker, hour, minute ->
                     calendarThird.set(Calendar.HOUR_OF_DAY, hour)
                     calendarThird.set(Calendar.MINUTE, minute)
-                    textview_third_time.text = SimpleDateFormat("HH:mm").format(calendarThird.time)
+
+
+                    var sdfTh = SimpleDateFormat("HH:mm").format(calendarThird.time)
+                    textview_third_time.text =sdfTh
+
+                    alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
+                        PendingIntent.getBroadcast(context, 33, intent, 0)
+                    }
+
+                    var timeHourThird = (sdfTh).substringBefore(':')
+                    var timeMinutThird = (sdfTh).substringAfter(':')
+                    val calendarThird: Calendar = Calendar.getInstance().apply {
+                        timeInMillis = System.currentTimeMillis()
+                        set(Calendar.HOUR_OF_DAY, timeHourThird.toInt())
+                        set(Calendar.MINUTE, timeMinutThird.toInt())
+                    }
+
+                    alarmMgr?.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendarThird.timeInMillis,
+                        alarmIntent
+                    )
                 }
 
             TimePickerDialog(
@@ -172,26 +188,7 @@ class AlarmFragment : Fragment()
 
         // Set the alarm to start at 8:30 a.m.
         //        var sec = editTextAlarmTimeFirst.text.toString().toInt()
-        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
-            PendingIntent.getBroadcast(context, 33, intent, 0)
-        }
 
-        var timeHourThird =
-            (SimpleDateFormat("HH:mm").format(calendarThird.time)).substringBefore(':')
-        var timeMinutThird =
-            (SimpleDateFormat("HH:mm").format(calendarThird.time)).substringAfter(':')
-        val calendarThird: Calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            //set(Calendar.HOUR_OF_DAY, timeHourThird.toInt())
-            //set(Calendar.MINUTE, timeMinutThird.toInt())
-        }
-
-        alarmMgr?.set(
-            AlarmManager.RTC_WAKEUP,
-            calendarThird.timeInMillis,
-            alarmIntent
-        )
 
         view.btn_saved_time.setOnClickListener {
             alarmMgr?.cancel(alarmIntent)
