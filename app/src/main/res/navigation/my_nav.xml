@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_listFragment_to_dozeFragment"
             app:destination="@id/dozeFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_alarmFragment"
+            app:destination="@id/alarmFragment" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -54,4 +57,9 @@
         android:name="space.robert.astmaapplication2.data.DozeFragment"
         android:label="fragment_doze"
         tools:layout="@layout/fragment_doze" />
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="space.robert.astmaapplication2.fragments.AlarmFragment"
+        android:label="fragment_alarm"
+        tools:layout="@layout/fragment_alarm" />
 </navigation>

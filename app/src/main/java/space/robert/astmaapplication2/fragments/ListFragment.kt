@@ -48,6 +48,10 @@ class ListFragment : Fragment() {
             findNavController().navigate(R.id.action_listFragment_to_dozeFragment)
         }
 
+        view.actionButtonToAlarm.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_alarmFragment)
+        }
+
         setHasOptionsMenu(true)
         return view
     }

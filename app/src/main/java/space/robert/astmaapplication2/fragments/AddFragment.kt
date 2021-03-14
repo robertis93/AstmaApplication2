@@ -34,8 +34,7 @@ class AddFragment : Fragment() {
     val dateTime = LocalDateTime.now()
 
     //val dateTime = LocalDateTime.now()
-    private var alarmMgr: AlarmManager? = null
-    private lateinit var alarmIntent: PendingIntent
+
     var dayWeek = Calendar.getInstance()
     private lateinit var mMeasureViewModel: MeasureViewModel
 
@@ -53,24 +52,7 @@ class AddFragment : Fragment() {
             insertDataToDatabase()
 
 
-            alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
-                PendingIntent.getBroadcast(context, 0, intent, 0)
-            }
 
-// Set the alarm to start at 8:30 a.m.
-            val calendar: Calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, 7)
-                set(Calendar.MINUTE,19 )
-            }
-
-            alarmMgr?.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                1000 * 60 * 20,
-                alarmIntent
-            )
 
 //            var sec = editTextTime8.text.toString().toInt()
 //            var i = Intent(context?.applicationContext, MyBroadcastReceiver::class.java)
@@ -91,7 +73,7 @@ class AddFragment : Fragment() {
         }
         val textViewTime = getView()?.findViewById<TextView>(R.id.text_time)
         if (textViewTime != null) {
-            textViewTime.setText(dateTime.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)))
+            textViewTime.setText(dateTime.format(DateTimeFormatter.ofPattern("H:m")))
                 .toString()
         }
 
