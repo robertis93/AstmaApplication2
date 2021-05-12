@@ -26,7 +26,7 @@ class ListFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_list, container, false)
 
         //Recycler
-        val adapter = ListAdaptor()
+        val adapter = ListAdapter()
         val recyclerView = view.recyclerView
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -71,7 +71,7 @@ class ListFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setPositiveButton("Yes"){_,_ ->
             mMeasureViewModel.deleteAllMeasure()
-            Toast.makeText(requireContext(), "Successfully removed everething}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Successfully removed everything}", Toast.LENGTH_SHORT).show()
 
         }
         builder.setNegativeButton("No"){_, _ ->

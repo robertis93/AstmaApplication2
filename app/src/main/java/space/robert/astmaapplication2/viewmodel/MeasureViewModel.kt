@@ -16,7 +16,7 @@ class MeasureViewModel(application: Application): AndroidViewModel(application) 
     private val repository : MeasureRepository
 
     init {
-        val measureDao = MeasureDataBase.getDaraBase(application).measureDao()
+        val measureDao = MeasureDataBase.getDataBase(application).measureDao()
         repository = MeasureRepository(measureDao)
         readAllData = repository.readAllData
     }

@@ -1,7 +1,9 @@
-package space.robert.astmaapplication2.fragments
+ package space.robert.astmaapplication2.fragments
 
 import android.app.AlarmManager
+import android.app.DatePickerDialog
 import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -10,7 +12,9 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.TextView
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
@@ -22,8 +26,10 @@ import kotlinx.android.synthetic.main.fragment_add.view.*
 import space.robert.astmaapplication2.MyBroadcastReceiver
 import space.robert.astmaapplication2.R
 import space.robert.astmaapplication2.convertDayOfMounth
+import space.robert.astmaapplication2.convertMounth
 import space.robert.astmaapplication2.model.Measure
 import space.robert.astmaapplication2.viewmodel.MeasureViewModel
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -32,6 +38,10 @@ import java.util.*
 
 class AddFragment : Fragment() {
     val dateTime = LocalDateTime.now()
+
+    companion object {
+        lateinit var tvd : String
+    }
 
     //val dateTime = LocalDateTime.now()
 
@@ -66,6 +76,54 @@ class AddFragment : Fragment() {
         }
 
 
+        val calndarDate = Calendar.getInstance()
+        val year = calndarDate.get(Calendar.YEAR)
+        val month = calndarDate.get(Calendar.MONTH)
+        val day = calndarDate.get(Calendar.DAY_OF_MONTH)
+
+        btn_date.setOnClickListener {
+
+            val calndarFirst = Calendar.getInstance()
+
+            val timeSetListener =
+                DatePickerDialog.OnDateSetListener { timePicker: DatePicker, year, month, day ->
+                    calndarFirst.set(Calendar.YEAR, year)
+                    calndarFirst.set(Calendar.MONTH, month)
+                    calndarFirst.set(Calendar.DAY_OF_MONTH, day)
+                    tvd = SimpleDateFormat("dd MMMM, YY").format(calndarFirst.time)
+                    textViewDate.setText(tvd)
+                }
+//            val dpd = context?.let { it1 ->
+//                DatePickerDialog(
+//                    it1,
+//                    DatePickerDialog.OnDateSetListener{ datePicker: DatePicker, mYear, mMonth, mDay ->
+//                        textViewDate.setText(""+ mDay + " " + convertMounth(mMonth) + " , " + mYear)
+//                    },
+//                    year,
+//                    month,
+//                    day
+//                )
+//            }
+//            if (dpd != null) {
+//                dpd.show()
+//            }
+
+
+            context?.let { it1 ->
+                DatePickerDialog(
+                    it1,
+                    timeSetListener,
+                    calndarFirst.get(Calendar.YEAR),
+                    calndarFirst.get(Calendar.MONTH),
+                    calndarFirst.get(Calendar.DAY_OF_MONTH),
+
+
+                    ).show()
+            }
+
+
+        }
+
         val textViewDate = getView()?.findViewById<TextView>(R.id.text_date)
         if (textViewDate != null) {
             textViewDate.setText(dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)))
@@ -73,7 +131,7 @@ class AddFragment : Fragment() {
         }
         val textViewTime = getView()?.findViewById<TextView>(R.id.text_time)
         if (textViewTime != null) {
-            textViewTime.setText(dateTime.format(DateTimeFormatter.ofPattern("H:m")))
+            textViewTime.setText(dateTime.format(DateTimeFormatter.ofPattern("HH:mm")))
                 .toString()
         }
 
@@ -88,8 +146,8 @@ class AddFragment : Fragment() {
 
 
     private fun insertDataToDatabase() {
-        val dateOfMeasure =
-            dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
+        val dateOfMeasure = tvd
+            //dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)).toString()
         val morningM = measureMorning.text
         val dayM = measureDay.text
         val eveningM = measureEvening.text

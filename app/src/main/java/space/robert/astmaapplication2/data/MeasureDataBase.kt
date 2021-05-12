@@ -15,7 +15,7 @@ abstract class MeasureDataBase : RoomDatabase() {
         @Volatile
         private var INSTANCE: MeasureDataBase? = null
 
-        fun getDaraBase(context : Context) : MeasureDataBase{
+        fun getDataBase(context : Context) : MeasureDataBase{
             val tempInstance = INSTANCE
             if (tempInstance != null){
                 return tempInstance

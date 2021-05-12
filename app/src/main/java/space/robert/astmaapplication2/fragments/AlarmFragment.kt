@@ -27,9 +27,6 @@ class AlarmFragment : Fragment()
 
     private var alarmMgr: AlarmManager? = null
     private lateinit var alarmIntent: PendingIntent
-    val calndarFirst = Calendar.getInstance()
-    val calendarSecond = Calendar.getInstance()
-    val calendarThird = Calendar.getInstance()
 
 
 
@@ -45,7 +42,7 @@ class AlarmFragment : Fragment()
         super.onViewCreated(view, savedInstanceState)
 
         view.btn_first_time.setOnClickListener {
-
+            val calndarFirst = Calendar.getInstance()
 
             val timeSetListener =
                 TimePickerDialog.OnTimeSetListener { timePicker: TimePicker, hour, minute ->
@@ -56,6 +53,8 @@ class AlarmFragment : Fragment()
 
                     // Set the alarm to start at 8:30 a.m.
                     //        var sec = editTextAlarmTimeFirst.text.toString().toInt()
+                    //A PendingIntent указывает действие, которое необходимо предпринять в будущем.
+                    //С помощью AlarmManager вы можете запланировать выполнение кода в будущем.
                     alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                     alarmIntent = Intent(context, MyBroadcastReceiver::class.java).let { intent ->
                         PendingIntent.getBroadcast(context, 11, intent, FLAG_UPDATE_CURRENT)
@@ -79,6 +78,8 @@ class AlarmFragment : Fragment()
 //
 
                 }
+//создание timepickerdialog
+                    // timeSetListener, метод которого срабатывает при нажатии кнопки ОК на диалоге
 
             TimePickerDialog(
                 context,
